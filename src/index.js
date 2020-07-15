@@ -7,16 +7,26 @@ import './index.css';
 const Header = (props)=>
 {
   return(
-    <h1>{props.course}</h1>
+    <h2>{props.course}</h2>
+  )
+}
+const Part=(props)=>
+{
+  return(
+    <div>
+      <p>{props.name} {props.numbers}</p>
+    </div>
+    
+
   )
 }
 const Content=(props)=>{
   return(
-  <>
-    <p>{props.part1} {props.exercise1}</p>
-    <p>{props.part2} {props.exercise2}</p>
-    <p>{props.part3} {props.exercise3}</p>  
-  </>
+  <div>
+    <Part name={props.part1} numbers={props.exercise1} />
+    <Part name={props.part2} numbers={props.exercise2} />
+    <Part name={props.part3} numbers={props.exercise3} />  
+  </div>
   )
 }
 
