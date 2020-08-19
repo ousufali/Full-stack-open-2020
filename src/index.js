@@ -69,50 +69,63 @@ import './index.css';
 // }
 ////////////////////////////  NEW EXAMPLE   ///////////////////////////////////////
 
-// const Hello = (props)=>
-const Hello = ({name,age}) =>
-{
-  // const name = props.name
-  // const age = props.age
+// // const Hello = (props)=>
+// const Hello = ({name,age}) =>
+// {
+//   // const name = props.name
+//   // const age = props.age
 
-  //      const {name,age} = props
+//   //      const {name,age} = props
 
-  const bornyear = ()=> new Date().getFullYear()-age
-  // const bornyear = ()=> 
-  // {
-  //   const yearnow = new Date().getFullYear()
-  //   console.log(yearnow);
-  //   return(yearnow-props.age)
-  // }
+//   const bornyear = ()=> new Date().getFullYear()-age
+//   // const bornyear = ()=> 
+//   // {
+//   //   const yearnow = new Date().getFullYear()
+//   //   console.log(yearnow);
+//   //   return(yearnow-props.age)
+//   // }
 
-  return(
-  <>
-  <p>Hello {name}, you are {age} years old</p>
-  <p>So you born in {bornyear()}</p>
-  </>
-  )
+//   return(
+//   <>
+//   <p>Hello {name}, you are {age} years old</p>
+//   <p>So you born in {bornyear()}</p>
+//   </>
+//   )
+// }
+
+// const App = () =>
+// {
+//   const name = 'Yousuf'
+//   const age = 20
+
+//   return(
+//     <div>
+//       <h1>Greetings</h1>
+//       <Hello name = 'maya' age={29+1} />
+//       <Hello name = {name} age={age} />
+//     </div>
+//   )
+// }
+///////////////////////////////////////////////////////////////// re rendering  ////////////
+
+const App = ({ counter }) => {
+  return (<div>{counter}</div>)
 }
 
-const App = () =>
-{
-  const name = 'Yousuf'
-  const age = 20
+let counter = 1;
 
-  return(
-    <div>
-      <h1>Greetings</h1>
-      <Hello name = 'maya' age={29+1} />
-      <Hello name = {name} age={age} />
-    </div>
-  )
+const refresh = () => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <App counter={counter} />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
 }
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+setInterval(()=> { refresh()
+   counter+=1
+  },1000)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
