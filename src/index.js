@@ -2,6 +2,17 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
+const Display = ({counter})=>
+{
+return(<div>{counter}</div>)
+}
+
+const Button=({handleClick,text})=>
+{
+  return(
+  <button onClick={handleClick}>{text}</button>
+  )
+}
 
 const App = () => {
   const [counter, setCounter] = useState(0)
@@ -10,13 +21,15 @@ const App = () => {
   // console.log('Rendering.... ',counter)
 
   const increasebyone = ()=> setCounter(counter + 1)
+  const decreasebyone = ()=> setCounter(counter - 1)
   const settozero = ()=> setCounter(0);
 
   return (<div>{counter}</div>,
     <div>
-      <p>{counter}</p>
-      <button onClick = {increasebyone}> Increment </button>
-      <button onClick={settozero}>Reset Counter</button>
+      <Display counter = {counter} />
+      <Button handleClick = {increasebyone} text='Plus' />
+      <Button handleClick = {decreasebyone} text='Minus' />
+      <Button handleClick={settozero} text='Reset' />
     </div>
     )
 
