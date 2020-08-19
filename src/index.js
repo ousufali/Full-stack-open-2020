@@ -2,36 +2,42 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-const Display = ({counter})=>
-{
-return(<div>{counter}</div>)
-}
-
-const Button=({handleClick,text})=>
+const Button = ({handleClick,text}) =>
 {
   return(
-  <button onClick={handleClick}>{text}</button>
+    <button onClick = {handleClick}>{text}</button>
   )
 }
 
 const App = () => {
-  const [counter, setCounter] = useState(0)
+  // const [left, setleft] = useState(0)
+  // const [right, setright] = useState(0)
 
-  // setTimeout(() => setcounter(counter + 1), 3000)
-  // console.log('Rendering.... ',counter)
+  const [clicks, setclicks] = useState({left:0 , right:0})
 
-  const increasebyone = ()=> setCounter(counter + 1)
-  const decreasebyone = ()=> setCounter(counter - 1)
-  const settozero = ()=> setCounter(0);
+  const increaseleft = ()=>
+  {
+    // const newclick = { 
+    //   ...clicks,
+    //   left: clicks.left + 1
+    //   // right: clicks.right
+    // }
+    setclicks({...clicks,left:clicks.left + 1})
+  }
+  const increaseright = ()=> setclicks({...clicks, right:clicks.right + 1})
 
-  return (<div>{counter}</div>,
+  return(
     <div>
-      <Display counter = {counter} />
-      <Button handleClick = {increasebyone} text='Plus' />
-      <Button handleClick = {decreasebyone} text='Minus' />
-      <Button handleClick={settozero} text='Reset' />
+      <>
+      {clicks.left}
+      <Button handleClick = {increaseleft} text = 'left'/>
+      
+      <Button handleClick = {increaseright} text = 'right' />
+      {clicks.right}
+      </>
     </div>
-    )
+  )
+
 
 }
 
