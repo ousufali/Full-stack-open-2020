@@ -10,30 +10,33 @@ const Button = ({handleClick,text}) =>
 }
 
 const App = () => {
-  // const [left, setleft] = useState(0)
-  // const [right, setright] = useState(0)
+  const [left, setleft] = useState(0)
+  const [right, setright] = useState(0)
+  const [allclicks, setall] = useState([])
 
-  const [clicks, setclicks] = useState({left:0 , right:0})
-
-  const increaseleft = ()=>
+  const increaseleft = ()=> 
   {
-    // const newclick = { 
-    //   ...clicks,
-    //   left: clicks.left + 1
-    //   // right: clicks.right
-    // }
-    setclicks({...clicks,left:clicks.left + 1})
+    setall(allclicks.concat('L'))
+    setleft(left + 1)
   }
-  const increaseright = ()=> setclicks({...clicks, right:clicks.right + 1})
+
+
+  const increaseright = ()=> 
+  {
+    allclicks.push('R')
+    setall(allclicks)
+    setright(right + 1)
+  }
 
   return(
     <div>
       <>
-      {clicks.left}
+      {left}
       <Button handleClick = {increaseleft} text = 'left'/>
       
       <Button handleClick = {increaseright} text = 'right' />
-      {clicks.right}
+      {right}
+      <p>{allclicks.join(' ')}</p>
       </>
     </div>
   )
