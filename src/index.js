@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
 //import * as serviceWorker from './serviceWorker';
 
 const Header = (props) => {
-  console.log(props)
+  // console.log(props)
   return (
     <h2>{props.course.name}</h2>
   )
@@ -55,19 +55,29 @@ const App = () => {
       }
     ]
   }
-  /*const part2 = 'Using props to passing data'
-  const exercise2 = 7
-  const part3 = 'State of component'
-  const exercise3 = 14  */
+  
 
-  return (
-    <div>
-      <Header course={course} />
-      <Content parts={course.parts} />
-      <Total parts={course.parts} />
-    </div >
+  // return (
+  //   <div>
+  //     <Header course={course} />
+  //     <Content parts={course.parts} />
+  //     <Total parts={course.parts} />
+  //   </div >
+    
+  // )
+  
+    const [count,setCount] = useState(0);
+  
+  return(
+    <>
+      <p>you clicked {count} times</p>
+      <button onClick ={  ()=>setCount(count+1)}>
+        click me
+      </button>
+    </>
   )
-}
+  }
+
 
 ReactDOM.render(
   <React.StrictMode>
