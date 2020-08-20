@@ -1,90 +1,65 @@
-import React, { useState } from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React, { useState } from 'react'
+import ReactDOM from 'react-dom'
 
-const Button = ({handleClick,text}) =>
-{
-  return(
-    <button onClick = {handleClick}>{text}</button>
-  )
+
+const Button = ({ clickhandle, text }) => {
+    return (
+        <button onClick={clickhandle}>{text}</button>
+    )
+
 }
 
-const History = ({allclicks})=>
-{
-  console.log(allclicks.length)
-  if(allclicks.length === 0)
-  {
-    return(
-      <div>
-        The app is used by pressing the buttons.
-      </div>
+const All = ({ g, b, n, text }) => {
+    return (
+        <div>{text} {g + b + n}</div>
     )
-  }
+}
+const Positive = ({ g, b, n, text }) => {
+    return (
+        <div>{text} {g / (g + b + n) * 100}{'%'}</div>
+    )
+}
+const Statistics = ({ g, n, b, }) => {
+    if (g === 0 && b=== 0 && n===0) {
+        return (
+            <div><h4>No feedback given.</h4></div>
+        )
+    }
+    return (
+        <div>
+            <Feedback text={'good'} count={g} />
+            <Feedback text={'neutral'} count={n} />
+            <Feedback text={'bad'} count={b} />
 
-  return(
-    <div>
-      Button press history: {allclicks.join(' ')}
-    </div>
-  )
+            <All g={g} b={b} n={n} text={'all'} />
+            <Positive g={g} b={b} n={n} text={'positive'} />
+        </div>
+    )
+}
+const Feedback = ({ text, count }) => {
+    return (
+        <div>{text} {count}</div>
+    )
 }
 const App = () => {
-  const [left, setleft] = useState(0)
-  const [right, setright] = useState(0)
-  const [allclicks, setall] = useState([])
+    // save clicks of each button to own state
+    const [good, setGood] = useState(0)
+    const [neutral, setNeutral] = useState(0)
+    const [bad, setBad] = useState(0)
 
-  const increaseleft = ()=> 
-  {
-    setall(allclicks.concat('L'))
-    setleft(left + 1)
-  }
+    return (
+        <div>
+            <h2>Give feedback</h2>
+            <Button clickhandle={() => setGood(good + 1)} text={'good'} />
+            <Button clickhandle={() => setNeutral(neutral + 1)} text={'neutal'} />
+            <Button clickhandle={() => setBad(bad + 1)} text={'bad'} />
+            <h2>Statistics</h2>
 
-
-  const increaseright = ()=> 
-  {
-    allclicks.push('R')  /////  not this way, take the upper one.
-    setall(allclicks)
-    setright(right + 1)
-  }
-
-  return(
-    <div>
-      <>
-      {left}
-      <Button handleClick = {increaseleft} text = 'left'/>
-      
-      <Button handleClick = {increaseright} text = 'right' />
-      {right}
-      <History allclicks = {allclicks} />
-      <button onClick = {()=>console.log('Hello')}>print hello</button>
-      <button onClick = {()=>setleft(0)}>set L zero</button>
-      </>
-    </div>
-  )
-
-
+            <Statistics g= {good} n = {neutral} b = {bad} />
+        </div>
+    )
 }
 
-ReactDOM.render(
-  <App />
-  , document.getElementById('root')
+ReactDOM.render(<App />,
+    document.getElementById('root')
 )
-
-// let counter = 1;
-
-// const refresh = () => {
-//   ReactDOM.render(
-//     <React.StrictMode>
-//       <App counter={counter} />
-//     </React.StrictMode>,
-//     document.getElementById('root')
-//   );
-// }
-
-// setInterval(()=> { refresh()
-//    counter+=1
-//   },1000)
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-//serviceWorker.unregister();
