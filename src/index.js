@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
+import './index.css'
+
 
 
 const Button = ({ clickhandle, text }) => {
@@ -11,12 +13,15 @@ const Button = ({ clickhandle, text }) => {
 
 const All = ({ g, b, n, text }) => {
     return (
-        <div>{text} {g + b + n}</div>
+        <Display d1={text} d2={g + b + n} />
     )
 }
 const Positive = ({ g, b, n, text }) => {
+    let d2 = g / (g + b + n) * 100
+    d2 = d2 + '%'
     return (
-        <div>{text} {g / (g + b + n) * 100}{'%'}</div>
+        // <div>{text} {g / (g + b + n) * 100}{'%'}</div>
+        <Display d1 = {text} d2 = {d2} />
     )
 }
 const Statistics = ({ g, n, b, }) => {
@@ -37,8 +42,19 @@ const Statistics = ({ g, n, b, }) => {
     )
 }
 const Feedback = ({ text, count }) => {
+    
     return (
-        <div>{text} {count}</div>
+        <Display d1 = {text} d2= {count} />
+    )
+}
+const Display = ({d1,d2})=>
+{
+    return(
+        
+            <tr>
+                <td>{d1}</td>   <td name = 'second-cell'>{d2}</td>
+            </tr>
+        
     )
 }
 const App = () => {
