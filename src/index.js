@@ -9,6 +9,24 @@ const Button = ({handleClick,text}) =>
   )
 }
 
+const History = ({allclicks})=>
+{
+  console.log(allclicks.length)
+  if(allclicks.length === 0)
+  {
+    return(
+      <div>
+        The app is used by pressing the buttons.
+      </div>
+    )
+  }
+
+  return(
+    <div>
+      Button press history: {allclicks.join(' ')}
+    </div>
+  )
+}
 const App = () => {
   const [left, setleft] = useState(0)
   const [right, setright] = useState(0)
@@ -23,7 +41,7 @@ const App = () => {
 
   const increaseright = ()=> 
   {
-    allclicks.push('R')
+    allclicks.push('R')  /////  not this way, take the upper one.
     setall(allclicks)
     setright(right + 1)
   }
@@ -36,7 +54,9 @@ const App = () => {
       
       <Button handleClick = {increaseright} text = 'right' />
       {right}
-      <p>{allclicks.join(' ')}</p>
+      <History allclicks = {allclicks} />
+      <button onClick = {()=>console.log('Hello')}>print hello</button>
+      <button onClick = {()=>setleft(0)}>set L zero</button>
       </>
     </div>
   )
