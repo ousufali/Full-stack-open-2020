@@ -1,81 +1,63 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Notes from './Note'
 
-import Course from './Course'
 
 
-const App = () => {
+const App = (props) => {
+    // console.log(props)
+    const [notes, setNote] = useState(props.notes)
+    const [newNote, SetNewNote] = useState('Add new note.')
+    const [showall,setshowall] = useState(true)
 
-    const course =
-        [
-            {
-                name: 'Half stack application development',
-                id: 1,
-                parts: [
-                    {
-                        name: 'Fundamentals of React',
-                        exercises: 10,
-                        id: 1
-                    },
-                    {
-                        name: 'Using props to passing data',
-                        exercises: 7,
-                        id: 2
+    // console.log(notes)
 
-                    },
-                    {
-                        name: 'State of component',
-                        exercises: 14,
-                        id: 3
-                    },
-                    {
-                        name: 'Redux',
-                        exercises: 11,
-                        id: 4
-                    }
-                ]
-            },
-            {
-                name: 'Node.js',
-                id: 2,
-                parts: [
-                    {
-                        name: 'Routing',
-                        exercises: 3,
-                        id: 1
-                    },
-                    {
-                        name: 'Middlewares',
-                        exercises: 7,
-                        id: 2
-                    }
-                ]
-            },
-            {
-                name: 'Programming fundamental',
-                id: 3,
-                parts: [
-                    {
-                        name: 'c++',
-                        exercises: 6,
-                        id: 1
-                    },
-                    {
-                        name: 'python',
-                        exercises: 8,
-                        id: 2
-                    }
-                ]
-            }
-        ]
+    // const notestoshow = showall ? notes : notes.filter(note => note.important === true)
+    const notestoshow = showall ? notes : notes.filter(note => note.important)
+
+    const HandleNoteChange = (event) => {
+        // console.log(event.target)
+        console.log(event.target.value)
+        SetNewNote(event.target.value)
+    }
+
+    const addNote = (event) =>
+    {
+        event.preventDefault()
+        const noteObject = {
+            content: newNote,
+            date: new Date().toISOString(),
+            important: Math.random()<0.5 ,
+            id: notes.length + 1
+        }
+        setNote(notes.concat(noteObject))
+        SetNewNote('')
+        // console.log(notes)
+    }
 
     return (
         <div>
-            <h1>Web development curriculum</h1>
-            <Course  course={course} />
-            
+            <h1>Notes</h1>
+            <div>
+                <button onClick = {()=> setshowall(!showall)} >
+                    show {showall ? 'important' : 'all'}
+                </button>
+            </div>
+            <ul>
+                {notestoshow.map((note) => <Notes key={note.id} note={note} />
+
+                )}
+            </ul>
+
+            <form onSubmit={addNote}>
+                <input value={newNote} onChange={HandleNoteChange}>
+
+                </input>
+                <button type="submit">
+                    save
+                </button>
+            </form>
         </div>
     )
-
 }
 
-export default App
+export default App 
