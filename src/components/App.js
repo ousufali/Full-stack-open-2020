@@ -1,52 +1,83 @@
-import React, { useState } from 'react'
-
-import Filter from './Filter'
-import Personform from './Personform'
-import Person from './Person'
+import React, { useState, useEffect } from 'react'
+import Notes from './Note'
+import axios from 'axios'
 
 
 
 const App = () => {
-    const [person, setperson] = useState([{ name: 'Yousuf ali', number: '03483176127' }, { name: 'abu', number: '034832323' }])
-    const [newname, setnewname] = useState('Enter name')
-    const [newnumber, setnewnumber] = useState('Enter number')
-    const [search_name, set_search_name] = useState('Nill')
+    // console.log(props)
+    const [notes, setNote] = useState([])
+    const [newNote, SetNewNote] = useState('Add new note.')
+    const [showall, setshowall] = useState(true)
 
-    // console.log(person.length)
+    // console.log(notes)
 
+    // const notestoshow = showall ? notes : notes.filter(note => note.important === true)
+    const notestoshow = showall ? notes : notes.filter(note => note.important)
 
+    const HandleNoteChange = (event) => {
+        // console.log(event.target)
+        console.log(event.target.value)
+        SetNewNote(event.target.value)
+    }
 
+    const addNote = (event) => {
+        event.preventDefault()
+        const noteObject = {
+            content: newNote,
+            date: new Date().toISOString(),
+            important: Math.random() < 0.5,
+            id: notes.length + 1
+        }
+        setNote(notes.concat(noteObject))
+        SetNewNote('')
+        // console.log(notes)
+    }
 
+    useEffect(() => {
+        console.log("Effect")
 
+        axios
+            .get('http://localhost:3001/notes')
+            .then(
+                (response) => {
+                    // console.log(response)
+                    console.log("Promise fulfilled")
+                    setNote(response.data)
 
+                }
+            )
+    }, [])
+
+    console.log('render', notes.length, 'notes')
 
     return (
         <div>
-            {/* <div>debug: {newname}</div>                
-            <div>debug: {newnumber}</div>
-            <div>d_handl_name: {search_name}</div> */}
-
-            <h2>
-                Phonebook
-            </h2>
-
-            <Filter search_name={search_name} set_search_name={set_search_name} person={person} />
 
 
-            <h2>
-                add a new
-            </h2>
+            <h1>Notes</h1>
+            <div>
+                <button onClick={() => setshowall(!showall)} >
+                    show {showall ? 'important' : 'all'}
+                </button>
+            </div>
+            <ul>
+                {notestoshow.map((note) => <Notes key={note.id} note={note} />
 
-            <Personform newname={newname} newnumber={newnumber} person={person} setnewname={setnewname} setnewnumber={setnewnumber} setperson={setperson} />
+                )}
+            </ul>
 
+            <form onSubmit={addNote}>
+                <input value={newNote} onChange={HandleNoteChange}>
 
-            <h2>
-                Numbers
-            </h2>
-            <Person person = {person}/>
+                </input>
+                <button type="submit">
+                    save
+                </button>
+            </form>
         </div>
     )
 
 }
 
-export default App
+export default App 
