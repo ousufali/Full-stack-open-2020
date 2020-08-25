@@ -1,63 +1,52 @@
 import React, { useState } from 'react'
-import Notes from './Note'
+
+import Filter from './Filter'
+import Personform from './Personform'
+import Person from './Person'
 
 
 
-const App = (props) => {
-    // console.log(props)
-    const [notes, setNote] = useState(props.notes)
-    const [newNote, SetNewNote] = useState('Add new note.')
-    const [showall,setshowall] = useState(true)
+const App = () => {
+    const [person, setperson] = useState([{ name: 'Yousuf ali', number: '03483176127' }, { name: 'abu', number: '034832323' }])
+    const [newname, setnewname] = useState('Enter name')
+    const [newnumber, setnewnumber] = useState('Enter number')
+    const [search_name, set_search_name] = useState('Nill')
 
-    // console.log(notes)
+    // console.log(person.length)
 
-    // const notestoshow = showall ? notes : notes.filter(note => note.important === true)
-    const notestoshow = showall ? notes : notes.filter(note => note.important)
 
-    const HandleNoteChange = (event) => {
-        // console.log(event.target)
-        console.log(event.target.value)
-        SetNewNote(event.target.value)
-    }
 
-    const addNote = (event) =>
-    {
-        event.preventDefault()
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random()<0.5 ,
-            id: notes.length + 1
-        }
-        setNote(notes.concat(noteObject))
-        SetNewNote('')
-        // console.log(notes)
-    }
+
+
+
 
     return (
         <div>
-            <h1>Notes</h1>
-            <div>
-                <button onClick = {()=> setshowall(!showall)} >
-                    show {showall ? 'important' : 'all'}
-                </button>
-            </div>
-            <ul>
-                {notestoshow.map((note) => <Notes key={note.id} note={note} />
+            {/* <div>debug: {newname}</div>                
+            <div>debug: {newnumber}</div>
+            <div>d_handl_name: {search_name}</div> */}
 
-                )}
-            </ul>
+            <h2>
+                Phonebook
+            </h2>
 
-            <form onSubmit={addNote}>
-                <input value={newNote} onChange={HandleNoteChange}>
+            <Filter search_name={search_name} set_search_name={set_search_name} person={person} />
 
-                </input>
-                <button type="submit">
-                    save
-                </button>
-            </form>
+
+            <h2>
+                add a new
+            </h2>
+
+            <Personform newname={newname} newnumber={newnumber} person={person} setnewname={setnewname} setnewnumber={setnewnumber} setperson={setperson} />
+
+
+            <h2>
+                Numbers
+            </h2>
+            <Person person = {person}/>
         </div>
     )
+
 }
 
-export default App 
+export default App
