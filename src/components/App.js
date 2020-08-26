@@ -1,83 +1,60 @@
 import React, { useState, useEffect } from 'react'
-import Notes from './Note'
 import axios from 'axios'
+import Filter from './Filter'
+import Personform from './Personform'
+import Person from './Person'
 
 
 
 const App = () => {
-    // console.log(props)
-    const [notes, setNote] = useState([])
-    const [newNote, SetNewNote] = useState('Add new note.')
-    const [showall, setshowall] = useState(true)
+    const [person, setperson] = useState([])
+    const [newname, setnewname] = useState('Enter name')
+    const [newnumber, setnewnumber] = useState('Enter number')
+    const [search_name, set_search_name] = useState('Nill')
+    const [effectrender, seteffectrender] = useState(false)
 
-    // console.log(notes)
-
-    // const notestoshow = showall ? notes : notes.filter(note => note.important === true)
-    const notestoshow = showall ? notes : notes.filter(note => note.important)
-
-    const HandleNoteChange = (event) => {
-        // console.log(event.target)
-        console.log(event.target.value)
-        SetNewNote(event.target.value)
-    }
-
-    const addNote = (event) => {
-        event.preventDefault()
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random() < 0.5,
-            id: notes.length + 1
-        }
-        setNote(notes.concat(noteObject))
-        SetNewNote('')
-        // console.log(notes)
-    }
-
+    // console.log(person.length)
     useEffect(() => {
         console.log("Effect")
 
-        axios
-            .get('http://localhost:3001/notes')
+        axios.get('http://localhost:3001/persons')
             .then(
                 (response) => {
-                    // console.log(response)
-                    console.log("Promise fulfilled")
-                    setNote(response.data)
+                    console.log("promise fulfilled")
+                    setperson(response.data)
+                    seteffectrender(false)
 
                 }
             )
-    }, [])
 
-    console.log('render', notes.length, 'notes')
+    }, [effectrender])
+
+
 
     return (
         <div>
 
+            <h2>
+                Phonebook
+            </h2>
 
-            <h1>Notes</h1>
-            <div>
-                <button onClick={() => setshowall(!showall)} >
-                    show {showall ? 'important' : 'all'}
-                </button>
-            </div>
-            <ul>
-                {notestoshow.map((note) => <Notes key={note.id} note={note} />
+            <Filter search_name={search_name} set_search_name={set_search_name} person={person} />
 
-                )}
-            </ul>
 
-            <form onSubmit={addNote}>
-                <input value={newNote} onChange={HandleNoteChange}>
+            <h2>
+                add a new
+            </h2>
 
-                </input>
-                <button type="submit">
-                    save
-                </button>
-            </form>
+            <Personform newname={newname} newnumber={newnumber} person={person} setnewname={setnewname} setnewnumber={setnewnumber} setperson={setperson} seteffectrender = {seteffectrender}/>
+
+
+            <h2>
+                Numbers
+            </h2>
+            <Person person={person} />
         </div>
     )
 
 }
 
-export default App 
+export default App
