@@ -1,57 +1,35 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import Filter from './Filter'
-import Personform from './Personform'
-import Person from './Person'
+
+import Country from './Country'
+
+
 
 
 
 const App = () => {
-    const [person, setperson] = useState([])
-    const [newname, setnewname] = useState('Enter name')
-    const [newnumber, setnewnumber] = useState('Enter number')
-    const [search_name, set_search_name] = useState('Nill')
-    const [effectrender, seteffectrender] = useState(false)
 
-    // console.log(person.length)
+    const [countries, setcountries] = useState([])
+    const [name, setname] = useState('')
+
     useEffect(() => {
-        console.log("Effect")
-
-        axios.get('http://localhost:3001/persons')
+        axios
+            .get('https://restcountries.eu/rest/v2/all')
             .then(
                 (response) => {
-                    console.log("promise fulfilled")
-                    setperson(response.data)
-                    seteffectrender(false)
-
+                    console.log('Promise fulfilled', { response })
+                    setcountries(response.data)
                 }
             )
-
-    }, [effectrender])
-
+    }, [])
 
 
     return (
+
         <div>
-
-            <h2>
-                Phonebook
-            </h2>
-
-            <Filter search_name={search_name} set_search_name={set_search_name} person={person} />
-
-
-            <h2>
-                add a new
-            </h2>
-
-            <Personform newname={newname} newnumber={newnumber} person={person} setnewname={setnewname} setnewnumber={setnewnumber} setperson={setperson} seteffectrender = {seteffectrender}/>
-
-
-            <h2>
-                Numbers
-            </h2>
-            <Person person={person} />
+            <h3>{process.env.REACT_APP_API_KEY}</h3>
+            <Country countries={countries} name={name} setname={setname} />
+            {/* {countries.map((coun)=><li key = {coun.name}> {coun.name}</li>)} */}
         </div>
     )
 
