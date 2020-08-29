@@ -1,152 +1,67 @@
 import React, { useState, useEffect } from 'react'
-import Notes from './components/Note'
-
-import noteService from './components/services/notes'
+import contactServices from './components/services/contacts'
+import Filter from './components/Filter'
+import Personform from './components/Personform'
+import Person from './components/Person'
 import Notification from './components/Notification'
-import Footer from './components/Footer'
-
 
 
 
 const App = () => {
-    // console.log(props)
-    const [notes, setNote] = useState([])
-    const [newNote, SetNewNote] = useState('Add new note.')
-    const [showall, setshowall] = useState(true)
+    const [person, setperson] = useState([])
+    const [newname, setnewname] = useState('')
+    const [newnumber, setnewnumber] = useState('')
+    const [search_name, set_search_name] = useState('')
     const [errormessage,seterrormessage] = useState(null)
+    // const [effectrender, seteffectrender] = useState(false)
 
-    // console.log(notes)
-
-    // const notestoshow = showall ? notes : notes.filter(note => note.important === true)
-    const notestoshow = showall ? notes : notes.filter(note => note.important)
-
-    const HandleNoteChange = (event) => {
-        // console.log(event.target)
-        console.log(event.target.value)
-        SetNewNote(event.target.value)
-    }
-
-    const toggleImportance = (id) => {
-        console.log(`Importance of ${id}  needs to be toggle`)
-
-        // const url = `http://localhost:3001/notes/${id}`
-        const note = notes.find(x => x.id === id)
-        const changednote = { ...note, important: !note.important }
-
-        // axios
-        // .put(url,changednote)
-        noteService
-            .update(id, changednote)
-            .then(initialnote => {
-                console.log(initialnote)
-                setNote(notes.map(n => n.id !== id ? n : initialnote))
-            })
-            .catch(
-                error =>
-                {
-                    seterrormessage(`Note '${note.content}' was already removed from server`)
-                    setTimeout(() => {
-                        seterrormessage(null)
-                    }, 5000);
-                    // alert(`the note "${note.content}" was not in server`)
-                    setNote(notes.filter(z=>z.id !== id))
-                }
-            )
-
-    }
-
-    const addNote = (event) => {
-        event.preventDefault()
-        const noteObject = {
-            content: newNote,
-            date: new Date().toISOString(),
-            important: Math.random() < 0.5,
-            // id: notes.length + 1
-        }
-        // setNote(notes.concat(noteObject))
-
-        // console.log(notes)
-
-        // axios
-        // .post('http://localhost:3001/notes',noteObject)
-        noteService
-            .create(noteObject)
-            .then(initialnote => {
-                setNote(notes.concat(initialnote))
-                SetNewNote('')
-
-            })
-
-
-
-    }
-
+    // console.log(person.length)
     useEffect(() => {
-        console.log("Effect")
+        // console.log("Effect")
 
-        // axios
-        //     .get('http://localhost:3001/notes')
-        noteService
-            .getall()
+        contactServices
+        .getall()
             .then(
-                (initialnote) => {
-                    // console.log(response)
-                    console.log("Promise fulfilled")
-                    setNote(initialnote)
+                (returnedData) => {
+                    console.log("getting data from server.....(done)")
+                    setperson(returnedData)
+                    // seteffectrender(false)
 
                 }
             )
+
     }, [])
 
-    console.log('render', notes.length, 'notes')
-
-//     const fail = () => {
-//         console.log("entering   fail function.")
-//         noteService
-//         .failedpromise()
-//         .then(() => console.log('failedpromise: tue'))
-//         .catch((error) => console.log('Return failed promise',error))
-    
 
 
-//     return (<></>)
-// }
-
-return (
-    <div>
-        {/* <div>
-            promise failing
-                <>
-                {fail()}
-            </>
-        </div> */}
-
-        <h1>Notes</h1>
-        <Notification message = {errormessage} />
+    return (
         <div>
-            <button onClick={() => setshowall(!showall)} >
-                show {showall ? 'important' : 'all'}
-            </button>
+
+            <h2>
+                Phonebook
+            </h2>
+            <div>
+            <Notification message={errormessage} />
+            </div>
+
+            <Filter search_name={search_name} set_search_name={set_search_name} person={person} />
+
+
+            <h2>
+                add a new
+            </h2>
+            {/* <Personform newname={newname} newnumber={newnumber} person={person} setnewname={setnewname} setnewnumber={setnewnumber} setperson={setperson} seteffectrender = {seteffectrender}/> */}
+
+            <Personform newname={newname} newnumber={newnumber} person={person} setnewname={setnewname} setnewnumber={setnewnumber} setperson={setperson} seterrormessage = {seterrormessage} />
+
+
+            <h2>
+                Numbers
+            </h2>
+            <Person person={person} seterrormessage = {seterrormessage} />
         </div>
-        <ul>
-            {notestoshow.map((note) => <Notes key={note.id} note={note} toggleImportance={() => toggleImportance(note.id)} />
-
-            )}
-        </ul>
-
-        <form onSubmit={addNote}>
-            <input value={newNote} onChange={HandleNoteChange}>
-
-            </input>
-            <button type="submit">
-                save
-                </button>
-        </form>
-
-        <Footer />
-    </div>
-)
+    )
 
 }
 
-export default App 
+export default App
