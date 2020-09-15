@@ -22,7 +22,7 @@ const Filter = ({ search_name, set_search_name, person }) => {
 
 const Result = () => {
     const result = person.filter((to_search_contact) => findcontact(to_search_contact))
-    console.log("Filter shown with: ",{result})
+    // console.log("Filter shown with: ",{result})
     // console.log(result.name)
     if (result.length > 0) {
         return (

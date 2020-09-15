@@ -13,7 +13,9 @@ const create = (newObject) => {
 }
 
 const update = (id, newObject) => {
+    console.log('sending request..')
     const request = axios.put(`${baseurl}/${id}`, newObject)
+    console.log(request)
     return request.then((response) => response.data)
 }
 

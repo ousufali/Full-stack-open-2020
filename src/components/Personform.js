@@ -23,7 +23,7 @@ const Personform = ({ newname, newnumber, person, setnewname, setnewnumber, setp
             name: newname,
             number: newnumber
         }
-
+        console.log('given contact to be updated:',newobject)
         // const already_have = person.filter((contact)=> contact.name === newname ? true :false)
         // console.log(already_have)
         // console.log(newname)
@@ -35,6 +35,9 @@ const Personform = ({ newname, newnumber, person, setnewname, setnewnumber, setp
                 contactid = contact.id;
             }
         })
+        // console.log(typeof(contactid),'before tostring',contactid)
+        // contactid = contactid.toString()
+        // console.log(typeof(contactid),'after tostring',contactid)
 
         // console.log(already_have)
         // console.log(newname)
@@ -56,6 +59,7 @@ const Personform = ({ newname, newnumber, person, setnewname, setnewnumber, setp
                 })
         } else if (window.confirm(`'${newname}' is already added to phonebook, replace old number with new one?`)) {
             // alert(newname + ' is already added to phonebook');
+            console.log('updating.......................')
             contactServices
                 .update(contactid, newobject)
                 .then((returnedData) => {
@@ -68,10 +72,9 @@ const Personform = ({ newname, newnumber, person, setnewname, setnewnumber, setp
 
                     return (returnedData)
                 })
-                .catch(()=>
-                {
-                    seterrormessage(`Not updated '${newname}', deleted from server`)
-
+                .catch((error) => {
+                    seterrormessage(`Not updated '${newname}'`)
+                    console.log('error:',error)
                     setInterval(() => {
                         seterrormessage(null)
 
