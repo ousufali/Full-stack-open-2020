@@ -57,6 +57,14 @@ const Personform = ({ newname, newnumber, person, setnewname, setnewnumber, setp
                     }, 4000);
 
                 })
+                .catch(error => {
+                    console.log("Error response data:::",error.response.data)
+                    seterrormessage(`Person validation failed: Path (${newname}) is shorter than minimum allowed length (3).`)
+                    setInterval(() => {
+                        seterrormessage(null)
+
+                    }, 5000);
+                })
         } else if (window.confirm(`'${newname}' is already added to phonebook, replace old number with new one?`)) {
             // alert(newname + ' is already added to phonebook');
             console.log('updating.......................')

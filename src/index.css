@@ -10,7 +10,7 @@ h1{
 }
 
 .error{
-  color:green;
+  color:red;
   background: lightgray;
   font-size: 20px;
   border-style: solid;
