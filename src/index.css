@@ -10,7 +10,7 @@ h1{
 }
 
 .error{
-  color: red;
+  color: rgb(115, 108, 219);
   background: lightgray;
   font-size: 20px;
   border-style: solid;
