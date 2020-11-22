@@ -19,18 +19,11 @@ const Noteform = ({ createNote }) => {
 
         setNewNote('')
 
-        // noteService
-        //     .create(noteObject)
-        //     .then(initialnote => {
-        //         setNote(notes.concat(initialnote))
-        //         SetNewNote('')
-
-        //     })
     }
 
 
     return (
-        <div>
+        <div className="formDiv">
             <h2>Create a note</h2>
             <form onSubmit={addNote}>
                 <input value={newNote} onChange={handleChange} />
